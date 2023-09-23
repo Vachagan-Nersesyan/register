@@ -1,94 +1,74 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import './RegisterCompStl.css'
 
-
-class RegisterComp extends Component {
-
-    state = {
-        userName: '',
-        userPassword: '',
-        userEmail: '',
-        errorText: ''
-    }
-
-    userNameFunc = (e) => {
-        this.setState({
-            userName: e.currentTarget.value
-        })
-    }
-
-    userPasswordFunc = (e) => {
-        this.setState({
-            userPassword: e.currentTarget.value
-        })
-    }
-
-    userEmailFunc = (e) => {
-        this.setState({
-            userEmail: e.currentTarget.value
-        })
-    }
-
-    authorisedValidFunc() {
+import { validatorFunc } from '../utils/validators'
 
 
-        if (!this.state.userName || this.state.userName.length < 2) {
-            return this.setState({ errorText: 'Please Write Your Name Again' })
+const RegisterComp = ({handleRegistration}) => {
 
+
+
+    const [userName, setUserName] = useState('')
+    const [userPassword, setUserPassword] = useState('')
+    const [userEmail, setUserEmail] = useState('')
+    const [errorText, setErrorText] = useState('')
+
+
+    const authorisedValidFunc = () => {
+        
+            
+        if (validatorFunc(userName, 'name')) {
+            return setErrorText(validatorFunc(userName, 'name'))
         }
 
-        if (!this.state.userPassword || this.state.userPassword.length < 2) {
-            return this.setState({ errorText: 'Please Write Your Password Again' })
-
+        if (validatorFunc(userPassword, 'password')) {
+            return setErrorText(validatorFunc(userPassword, 'password'))
         }
 
-        if (!this.state.userEmail || this.state.userEmail.length < 2) {
-            return this.setState({ errorText: 'Please Write Your Email Again' })
-
+        if (validatorFunc(userEmail, 'email')) {
+            return setErrorText(validatorFunc(userEmail, 'email'))
         }
 
 
-        return this.props.authorisedFunc({ ...this.state })
+        return handleRegistration({userName,userPassword,userEmail})
+
     }
 
 
-    render() {
+    return (
+        <div className='register_content'>
+            <div className='register_content_container'>
+                <div className='register_content_container_title'>
+                    Welcome
+                </div>
+                <div className='register_content_container_txt'>
+                    Please Login
+                </div>
+                <div className='register_content_container_user_name_item'>
+                    <input onChange={(e) => setUserName(e.target.value)} placeholder='Please write your name' type='text' />
+
+                </div>
+                <div className='register_content_container_user_name_item'>
+                    <input onChange={(e) => setUserEmail(e.target.value)} placeholder='Please write your name' type='email' />
+
+                </div>
+                <div className='register_content_container_user_name_item'>
+                    <input onChange={(e) => setUserPassword(e.target.value)} type='password' />
+
+                </div>
+                {errorText ? <div className='register_content_container_error_txt'>
+                    {errorText}
+                </div> : null}
 
 
-        return (
-            <div className='register_content'>
-                <div className='register_content_container'>
-                    <div className='register_content_container_title'>
-                        Welcome
-                    </div>
-                    <div className='register_content_container_txt'>
-                        Please Login
-                    </div>
-                    <div className='register_content_container_user_name_item'>
-                        <input onChange={(e) => this.userNameFunc(e)} placeholder='Please write your name' type='text' />
+                <div className='register_content_container_btn'>
+                    <button onClick={() => authorisedValidFunc()}>REGISTER</button>
 
-                    </div>
-                    <div className='register_content_container_user_name_item'>
-                        <input onChange={(e) => this.userEmailFunc(e)} placeholder='Please write your name' type='email' />
-
-                    </div>
-                    <div className='register_content_container_user_name_item'>
-                        <input onChange={(e) => this.userPasswordFunc(e)} type='password' />
-
-                    </div>
-                    {this.state.errorText ? <div className='register_content_container_error_txt'>
-                        {this.state.errorText}
-                    </div> : null}
-
-
-                    <div className='register_content_container_btn'>
-                        <button onClick={() => this.authorisedValidFunc()}>REGISTER</button>
-
-                    </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
+
 }
 
 export default RegisterComp

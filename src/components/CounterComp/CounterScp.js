@@ -1,65 +1,51 @@
-import { Component } from 'react'
+import { Component, useState } from 'react'
 import './CounterStl.css'
 
-class CounterComp extends Component {
+const CounterComp = (props) => {
 
-    state = {
-        counter : 0,
-        counterTp : false,
+
+    const [counter,setCounter] = useState(0)
+    const [error,setError] = useState(false) 
+
+    const changeValue = (counter) => {
+        setError(false)
+        setCounter(counter)
     }
 
-    minusFunc(){
-        this.setState({
-            counter : this.state.counter -= 1,
+    const minusFunc = () => changeValue(counter - 1)
 
-        })
+    const plusFunc = () => changeValue(counter + 1)
+
+
+    const onInpChange = (event) => {
+        const counter = Number(event.target.value.trim())
+        if (isNaN(counter)) {
+            return setError(true)
+        }
+        setError(false)
+        setCounter(counter)
+
     }
 
-    plusFunc(){
-        
-        this.setState({
-            counter : this.state.counter += 1,
-        })
-    }
+    return (
+        <div>
+            <button className='prev_btn' onClick={minusFunc}>
+                minus
+            </button>
 
-    changevaluTpFunc(){
-        this.setState({
-            counterTp : !this.state.counterTp
-        })
-    }
+            <div className='prev_btn'>
+                <input type='number' value={counter} onChange={onInpChange} />
 
-    getInpVal(e){
-        this.setState({
-            counter : e
-        })
-    }
-
-
-    render(){
-        return (
-            <div>
-                <button className='prev_btn' onClick={() => this.minusFunc()}>
-                    minus
-                </button>
-
-                <div className='prev_btn'>
-                    {/* <input type='number' /> */}
-                    {this.state.counterTp ?
-                    <div onDoubleClick={() => this.changevaluTpFunc()}>
-                            <input type='number' onChange={(e) => this.getInpVal(e.target.value)}/>
-                        </div>
-                    : <div onClick={() => this.changevaluTpFunc()}>
-                        {this.state.counter}
-                        </div>}
-
-                </div>
-
-                <button className='prev_btn' onClick={() => this.plusFunc()}>
-                    plus
-                </button>
             </div>
-        )
-    }
+
+            <button className='prev_btn' onClick={plusFunc}>
+                plus
+            </button>
+
+            {error ? <div>Input only number</div> : null}
+        </div>
+    )
+
 }
 
 
