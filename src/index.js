@@ -6,6 +6,9 @@ import RegisterComp from './components/RegisterComp/RegisterCompScp'
 import UserPageComp from './components/UserPageComp/UserPageCompScp'
 
 
+import CounterComp from './components/CounterComp/CounterScp'
+
+
 class App extends Component {
 
   state = {
@@ -33,19 +36,23 @@ class App extends Component {
 
   render() {
 
-    debugger
+    
 
-    console.log(localStorage.getItem("user"))
+    // console.log(localStorage.getItem("user"))
 
-    return (
-      <div className="App">
+    // return (
+    //   <div className="App">
         
 
-        {(!this.state.isAuth) ? <RegisterComp authorisedFunc={this.authorisedFunc} />  : <UserPageComp logoutFun={this.logoutFun} userInfoObj={this.state.userInfo} />}
+    //     {(!this.state.isAuth) ? <RegisterComp authorisedFunc={this.authorisedFunc} />  : <UserPageComp logoutFun={this.logoutFun} userInfoObj={this.state.userInfo} />}
 
 
-      </div>
-    );
+    //   </div>
+    // );
+
+    return( 
+      <CounterComp />
+    )
   }
 }
 
